@@ -32,7 +32,7 @@ const CartDrawer = () => {
                 <div className="row g-0">
                   <div className="col-4">
                     <img 
-                      src={item.image || `https://source.unsplash.com/100x100/?product,${item.name}`} 
+                      src={item.image} 
                       className="img-fluid rounded-start" 
                       alt={item.name} 
                       style={{ height: '100%', objectFit: 'cover' }}

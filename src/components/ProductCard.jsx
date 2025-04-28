@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
     <div className="col">
       <div className="card h-100 shadow-sm">
         <img 
-          src={product.image || `https://source.unsplash.com/300x200/?product,${encodeURIComponent(product.name)}`} 
+          src={product.image} 
           className="card-img-top" 
           alt={product.name}
           style={{ height: '200px', objectFit: 'cover' }}

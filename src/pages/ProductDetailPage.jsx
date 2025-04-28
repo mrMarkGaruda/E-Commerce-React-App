@@ -93,7 +93,7 @@ const ProductDetailPage = () => {
         <div className="row g-0">
           <div className="col-md-6">
             <img
-              src={product.image || `https://source.unsplash.com/600x400/?product,${encodeURIComponent(product.name)}`}
+              src={product.image}
               alt={product.name}
               className="img-fluid rounded-start"
               style={{ maxHeight: '400px', width: '100%', objectFit: 'cover' }}

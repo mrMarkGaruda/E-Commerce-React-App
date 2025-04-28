@@ -9,21 +9,21 @@ const initializeProducts = () => {
         name: 'Smartphone X',
         price: 599.99,
         description: 'Latest smartphone with advanced camera and long battery life.',
-        image: 'https://via.placeholder.com/300'
+        image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?q=80&w=2118&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       },
       {
         id: '2',
         name: 'Wireless Headphones',
         price: 129.99,
         description: 'Premium noise-cancelling wireless headphones with 30-hour battery life.',
-        image: 'https://via.placeholder.com/300'
+        image: 'https://images.unsplash.com/photo-1612465289702-7c84b5258fde?q=80&w=1946&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       },
       {
         id: '3',
         name: 'Fitness Tracker',
         price: 89.99,
         description: 'Track your steps, heart rate, and sleep with this water-resistant fitness band.',
-        image: 'https://via.placeholder.com/300'
+        image: 'https://images.unsplash.com/photo-1532435109783-fdb8a2be0baa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       }
     ];
     localStorage.setItem(API_STORAGE_KEY, JSON.stringify(initialProducts));
