@@ -3,26 +3,47 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="py-3 bg-light mt-auto">
+    <footer className="py-4 bg-light mt-auto">
       <div className="container">
-        <ul className="nav justify-content-center pb-3">
-          <li className="nav-item">
-            <Link to="/" className="nav-link px-2">
-              Home
+        <div className="row align-items-center justify-content-between">
+          <div className="col-md-4 text-center text-md-start">
+            <Link to="/" className="text-decoration-none text-dark">
+              <i className="bi bi-shop-window fs-4 me-2"></i>
+              <span className="fw-bold">E-commerce</span>
             </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/login" className="nav-link px-2">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/signup" className="nav-link px-2">
-              Sign-up
-            </Link>
-          </li>
-        </ul>
-        <p className="text-center text-muted">© 2025 Mark Abramenko</p>
+          </div>
+          
+          <div className="col-md-4 text-center my-3 my-md-0">
+            <ul className="nav justify-content-center">
+              <li className="nav-item">
+                <Link to="/" className="nav-link px-2 text-dark">
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/login" className="nav-link px-2 text-dark">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/signup" className="nav-link px-2 text-dark">
+                  Sign-up
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="col-md-4 text-center text-md-end">
+            <div className="fs-4">
+              <a href="#" className="text-dark me-3"><i className="bi bi-facebook"></i></a>
+              <a href="#" className="text-dark me-3"><i className="bi bi-twitter-x"></i></a>
+              <a href="#" className="text-dark me-3"><i className="bi bi-instagram"></i></a>
+              <a href="#" className="text-dark"><i className="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <p className="text-center text-muted mb-0">© 2025 E-commerce. All rights reserved.</p>
       </div>
     </footer>
   );
