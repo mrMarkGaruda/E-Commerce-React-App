@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { fetchProducts } from '../utils/api';
 import ProductCard from '../components/ProductCard';
+import { Link } from 'react-router-dom';
+import { isAuthenticated } from '../utils/auth';
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const authenticated = isAuthenticated();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -42,19 +45,77 @@ const HomePage = () => {
   }
 
   return (
-    <div className="container py-4">
-      <h2 className="mb-4">Products</h2>
-      
-      {products.length === 0 ? (
-        <div className="alert alert-info">No products available yet.</div>
-      ) : (
-        <div className="row row-cols-1 row-cols-md-3 g-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+    <>
+      {/* Hero Section */}
+      <div className="bg-primary text-white py-5 mb-5">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-6">
+              <h1 className="display-4 fw-bold">Discover Amazing Products</h1>
+              <p className="lead">Find the best products for your needs with our curated selection.</p>
+              {authenticated ? (
+                <Link to="/product/new" className="btn btn-light btn-lg">
+                  <i className="bi bi-plus-circle me-2"></i>Add Your Product
+                </Link>
+              ) : (
+                <Link to="/signup" className="btn btn-light btn-lg">
+                  <i className="bi bi-person-plus me-2"></i>Sign Up Now
+                </Link>
+              )}
+            </div>
+            <div className="col-lg-6 d-none d-lg-block">
+              <img 
+                src="https://via.placeholder.com/600x400?text=Shop+Now" 
+                alt="Shop now" 
+                className="img-fluid rounded shadow"
+              />
+            </div>
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+      
+      {/* Products Section */}
+      <div className="container py-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2>Featured Products</h2>
+          {authenticated && (
+            <Link to="/product/new" className="btn btn-outline-primary">
+              <i className="bi bi-plus-circle me-2"></i>Add New Product
+            </Link>
+          )}
+        </div>
+        
+        {products.length === 0 ? (
+          <div className="alert alert-info py-4 text-center">
+            <i className="bi bi-info-circle fs-4 d-block mb-3"></i>
+            <h4>No products available yet</h4>
+            {authenticated ? (
+              <div className="mt-3">
+                <Link to="/product/new" className="btn btn-primary">
+                  Add Your First Product
+                </Link>
+              </div>
+            ) : (
+              <div className="mt-3">
+                <p>Please sign in to add products</p>
+                <Link to="/login" className="btn btn-primary me-2">
+                  Login
+                </Link>
+                <Link to="/signup" className="btn btn-outline-primary">
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

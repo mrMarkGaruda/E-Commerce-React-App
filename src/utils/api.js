@@ -1,43 +1,65 @@
-const API_URL = 'https://your-api-url.com/api'; // Replace with your actual API URL
+const API_STORAGE_KEY = 'mock_api_products';
 
-// Get products
-export const fetchProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+// Initialize products in localStorage if they don't exist
+const initializeProducts = () => {
+  if (!localStorage.getItem(API_STORAGE_KEY)) {
+    const initialProducts = [
+      {
+        id: '1',
+        name: 'Smartphone X',
+        price: 599.99,
+        description: 'Latest smartphone with advanced camera and long battery life.',
+        image: 'https://via.placeholder.com/300'
       },
-    });
+      {
+        id: '2',
+        name: 'Wireless Headphones',
+        price: 129.99,
+        description: 'Premium noise-cancelling wireless headphones with 30-hour battery life.',
+        image: 'https://via.placeholder.com/300'
+      },
+      {
+        id: '3',
+        name: 'Fitness Tracker',
+        price: 89.99,
+        description: 'Track your steps, heart rate, and sleep with this water-resistant fitness band.',
+        image: 'https://via.placeholder.com/300'
+      }
+    ];
+    localStorage.setItem(API_STORAGE_KEY, JSON.stringify(initialProducts));
+  }
+};
 
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data;
+// Get all products
+export const fetchProducts = async () => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  try {
+    initializeProducts();
+    const products = JSON.parse(localStorage.getItem(API_STORAGE_KEY) || '[]');
+    return products;
   } catch (error) {
     console.error('Error fetching products:', error);
-    throw error;
+    throw new Error('Failed to fetch products');
   }
 };
 
 // Get single product
 export const fetchProductById = async (id) => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
   try {
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    initializeProducts();
+    const products = JSON.parse(localStorage.getItem(API_STORAGE_KEY) || '[]');
+    const product = products.find(p => p.id === id);
+    
+    if (!product) {
+      throw new Error('Product not found');
     }
-
-    const data = await response.json();
-    return data;
+    
+    return product;
   } catch (error) {
     console.error(`Error fetching product ${id}:`, error);
     throw error;
@@ -46,22 +68,27 @@ export const fetchProductById = async (id) => {
 
 // Create product (requires auth)
 export const createProduct = async (productData, token) => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 800));
+  
   try {
-    const response = await fetch(`${API_URL}/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(productData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    if (!token) {
+      throw new Error('Authentication required');
     }
-
-    const data = await response.json();
-    return data;
+    
+    initializeProducts();
+    const products = JSON.parse(localStorage.getItem(API_STORAGE_KEY) || '[]');
+    
+    // Generate a new unique ID (timestamp + random)
+    const newProduct = {
+      ...productData,
+      id: Date.now().toString() + Math.random().toString(36).substring(2, 9)
+    };
+    
+    products.push(newProduct);
+    localStorage.setItem(API_STORAGE_KEY, JSON.stringify(products));
+    
+    return newProduct;
   } catch (error) {
     console.error('Error creating product:', error);
     throw error;
@@ -70,22 +97,29 @@ export const createProduct = async (productData, token) => {
 
 // Update product (requires auth)
 export const updateProduct = async (id, productData, token) => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 800));
+  
   try {
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(productData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    if (!token) {
+      throw new Error('Authentication required');
     }
-
-    const data = await response.json();
-    return data;
+    
+    initializeProducts();
+    const products = JSON.parse(localStorage.getItem(API_STORAGE_KEY) || '[]');
+    const productIndex = products.findIndex(p => p.id === id);
+    
+    if (productIndex === -1) {
+      throw new Error('Product not found');
+    }
+    
+    // Update the product
+    const updatedProduct = { ...products[productIndex], ...productData, id };
+    products[productIndex] = updatedProduct;
+    
+    localStorage.setItem(API_STORAGE_KEY, JSON.stringify(products));
+    
+    return updatedProduct;
   } catch (error) {
     console.error(`Error updating product ${id}:`, error);
     throw error;
@@ -94,19 +128,24 @@ export const updateProduct = async (id, productData, token) => {
 
 // Delete product (requires auth)
 export const deleteProduct = async (id, token) => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 600));
+  
   try {
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    if (!token) {
+      throw new Error('Authentication required');
     }
-
+    
+    initializeProducts();
+    const products = JSON.parse(localStorage.getItem(API_STORAGE_KEY) || '[]');
+    const updatedProducts = products.filter(p => p.id !== id);
+    
+    if (products.length === updatedProducts.length) {
+      throw new Error('Product not found');
+    }
+    
+    localStorage.setItem(API_STORAGE_KEY, JSON.stringify(updatedProducts));
+    
     return true;
   } catch (error) {
     console.error(`Error deleting product ${id}:`, error);
