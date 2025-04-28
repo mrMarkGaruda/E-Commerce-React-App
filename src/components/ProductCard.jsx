@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
+import { useCart } from '../contexts/CartContext';
 
 const ProductCard = ({ product }) => {
   const authenticated = isAuthenticated();
+  const { addToCart } = useCart();
   
   return (
     <div className="col">
       <div className="card h-100 shadow-sm">
         <img 
-          src={product.image || "https://via.placeholder.com/300x200?text=Product+Image"} 
+          src={product.image} 
           className="card-img-top" 
           alt={product.name}
           style={{ height: '200px', objectFit: 'cover' }}
@@ -26,12 +28,18 @@ const ProductCard = ({ product }) => {
             <Link to={`/product/${product.id}`} className="btn btn-sm btn-outline-primary">
               View Details
             </Link>
-            {authenticated && (
-              <Link to={`/product/edit/${product.id}`} className="btn btn-sm btn-outline-secondary">
-                Edit
-              </Link>
-            )}
+            <button 
+              className="btn btn-sm btn-primary"
+              onClick={() => addToCart(product)}
+            >
+              <i className="bi bi-cart-plus"></i> Add
+            </button>
           </div>
+          {authenticated && (
+            <Link to={`/product/edit/${product.id}`} className="btn btn-sm btn-outline-secondary mt-2">
+              Edit
+            </Link>
+          )}
         </div>
       </div>
     </div>

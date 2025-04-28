@@ -65,7 +65,7 @@ const HomePage = () => {
             </div>
             <div className="col-lg-6 d-none d-lg-block">
               <img 
-                src="https://via.placeholder.com/600x400?text=Shop+Now" 
+                src="https://images.unsplash.com/photo-1556740772-1a741367b93e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                 alt="Shop now" 
                 className="img-fluid rounded shadow"
               />
